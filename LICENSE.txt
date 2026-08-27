@@ -1,0 +1,27 @@
+Vanta Proprietary Source-Available Notice
+
+Copyright © 2026 Merhatta Softwares. All rights reserved.
+
+Vanta, its original source code, user interface, branding, documentation,
+and original assets are owned by Merhatta Softwares.
+
+Permission is granted only to view this repository and to build or test the
+software when expressly authorized by Merhatta Softwares. No permission is
+granted to copy, redistribute, sublicense, sell, publish modified versions,
+remove ownership notices, or use the Vanta name or branding without prior
+written permission from Merhatta Softwares.
+
+Contributions submitted to this repository may be accepted, rejected, or
+modified at the sole discretion of Merhatta Softwares. Acceptance does not
+transfer ownership of Vanta or grant a license to the contributor.
+
+Third-party components, libraries, trademarks, and dependencies remain the
+property of their respective owners and are subject to their own licenses.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
+MERHATTA SOFTWARES BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY
+ARISING FROM THE SOFTWARE OR ITS USE.
+
+For licensing enquiries, contact Merhatta Softwares.

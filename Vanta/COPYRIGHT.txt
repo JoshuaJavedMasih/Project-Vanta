@@ -1,0 +1,9 @@
+Vanta
+Copyright © 2026 Merhatta Softwares. All rights reserved.
+
+Vanta, its original source code, user interface, branding, documentation,
+and original assets are owned by Merhatta Softwares. No rights are granted
+except under a separate written license from Merhatta Softwares.
+
+Third-party components, libraries, trademarks, and dependencies remain the
+property of their respective owners and are subject to their own licenses.

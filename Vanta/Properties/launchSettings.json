@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Vanta (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Vanta (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

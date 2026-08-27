@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Vanta.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{StaticResource VantaBackgroundBrush}"
+    mc:Ignorable="d">
+
+    <NavigationView x:Name="RootNavigation"
+                    AlwaysShowHeader="False"
+                    Background="{StaticResource VantaBackgroundBrush}"
+                    CompactModeThresholdWidth="980"
+                    CompactPaneLength="56"
+                    ExpandedModeThresholdWidth="1120"
+                    IsBackButtonVisible="Collapsed"
+                    IsPaneToggleButtonVisible="False"
+                    IsSettingsVisible="False"
+                    OpenPaneLength="190"
+                    PaneDisplayMode="Left"
+                    SelectionChanged="RootNavigation_SelectionChanged">
+
+        <NavigationView.Resources>
+            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#0B111D" />
+            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#0B111D" />
+            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="#070B14" />
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#9A61FF" />
+        </NavigationView.Resources>
+
+        <NavigationView.PaneHeader>
+            <StackPanel Margin="10,12,8,18" Orientation="Horizontal" Spacing="9">
+                <Image Width="29" Height="29" Source="ms-appx:///Assets/VantaLogo.png" Stretch="Uniform" />
+                <TextBlock VerticalAlignment="Center"
+                           FontFamily="{StaticResource VantaDisplayFontFamily}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource VantaTextBrush}"
+                           Text="Vanta" />
+            </StackPanel>
+        </NavigationView.PaneHeader>
+
+        <NavigationView.MenuItems>
+            <NavigationViewItem x:Name="OverviewNavigationItem" Content="Overview" IsSelected="True" Tag="overview">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xE80F;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="CPU" Tag="cpu">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xE950;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="GPU" Tag="gpu">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xE7F4;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Memory" Tag="memory">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xE950;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Storage" Tag="storage">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xEDA2;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Network" Tag="network">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xE968;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Processes" Tag="processes">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xECAA;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Alerts" Tag="alerts">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xEA8F;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.MenuItems>
+
+        <NavigationView.FooterMenuItems>
+            <NavigationViewItem Content="Settings" Tag="settings">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xE713;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="About" Tag="about">
+                <NavigationViewItem.Icon><FontIcon Glyph="&#xE946;" /></NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.FooterMenuItems>
+
+        <Grid>
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="#0A1020" />
+                    <GradientStop Offset="0.42" Color="#07101A" />
+                    <GradientStop Offset="1" Color="#060A12" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="36" />
+            </Grid.RowDefinitions>
+
+            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid x:Name="OverviewView" Padding="24,14,24,18" RowSpacing="16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="190" />
+                            <RowDefinition Height="170" />
+                            <RowDefinition Height="290" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <StackPanel Spacing="2">
+                                <TextBlock Style="{StaticResource VantaPageTitleStyle}" Text="Overview" />
+                                <TextBlock Style="{StaticResource VantaBodyStyle}" Text="Real-time system overview and performance summary" />
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                                <Border Padding="11,7"
+                                        Background="#0CFFFFFF"
+                                        BorderBrush="{StaticResource VantaStrongBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="7">
+                                    <StackPanel Orientation="Horizontal" Spacing="7">
+                                        <FontIcon FontSize="12" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xE823;" />
+                                        <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{StaticResource VantaMutedTextBrush}" Text="1 sec" />
+                                        <FontIcon FontSize="8" Foreground="{StaticResource VantaSubtleTextBrush}" Glyph="&#xE70D;" />
+                                    </StackPanel>
+                                </Border>
+                                <Button Click="ExportSnapshot_Click" Style="{StaticResource VantaPillButtonStyle}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon FontSize="12" Glyph="&#xE74E;" />
+                                        <TextBlock Text="Export Report" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="1" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Style="{StaticResource VantaCardStyle}">
+                                <Grid RowSpacing="8">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                                    <TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="CPU Usage" />
+                                    <Grid Grid.Row="1" ColumnSpacing="10">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="100" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                        <Grid Width="94" Height="94" VerticalAlignment="Center">
+                                            <Ellipse Stroke="#243B5B82" StrokeThickness="8" />
+                                            <ProgressRing Width="94" Height="94" Foreground="{StaticResource VantaBlueBrush}" IsActive="True" IsIndeterminate="False" Maximum="100" Value="{x:Bind ViewModel.CpuUsageValue, Mode=OneWay}" />
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="27" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.CpuUsage, Mode=OneWay}" />
+                                        </Grid>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="7">
+                                            <Canvas x:Name="CpuGaugeTrendCanvas" Height="44" SizeChanged="TrendCanvas_SizeChanged">
+                                                <Polyline x:Name="CpuGaugeTrendLine" Stroke="{StaticResource VantaBlueBrush}" StrokeThickness="1.6" StrokeLineJoin="Round" />
+                                            </Canvas>
+                                            <TextBlock FontSize="11" Foreground="{StaticResource VantaMutedTextBrush}" Text="{x:Bind ViewModel.CpuClockShort, Mode=OneWay}" />
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="{x:Bind ViewModel.CpuLogicalShort, Mode=OneWay}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Column="1" Style="{StaticResource VantaCardStyle}">
+                                <Grid RowSpacing="8">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                                    <TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="GPU Load" />
+                                    <Grid Grid.Row="1" ColumnSpacing="10">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="100" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                        <Grid Width="94" Height="94" VerticalAlignment="Center">
+                                            <Ellipse Stroke="#24354E3C" StrokeThickness="8" />
+                                            <ProgressRing Width="94" Height="94" Foreground="{StaticResource VantaSuccessBrush}" IsActive="True" IsIndeterminate="False" Maximum="100" Value="{x:Bind ViewModel.GpuUsageValue, Mode=OneWay}" />
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="27" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.GpuUsage, Mode=OneWay}" />
+                                        </Grid>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="7">
+                                            <Canvas x:Name="GpuGaugeTrendCanvas" Height="44" SizeChanged="TrendCanvas_SizeChanged">
+                                                <Polyline x:Name="GpuGaugeTrendLine" Stroke="{StaticResource VantaSuccessBrush}" StrokeThickness="1.6" StrokeLineJoin="Round" />
+                                            </Canvas>
+                                            <TextBlock TextTrimming="CharacterEllipsis" FontSize="11" Foreground="{StaticResource VantaMutedTextBrush}" Text="{x:Bind ViewModel.GpuName, Mode=OneWay}" />
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="{x:Bind ViewModel.GpuTemperature, Mode=OneWay}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Column="2" Style="{StaticResource VantaCardStyle}">
+                                <Grid RowSpacing="8">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                                    <TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="RAM Usage" />
+                                    <Grid Grid.Row="1" ColumnSpacing="10">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="100" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                        <Grid Width="94" Height="94" VerticalAlignment="Center">
+                                            <Ellipse Stroke="#243F2D64" StrokeThickness="8" />
+                                            <ProgressRing Width="94" Height="94" Foreground="{StaticResource VantaAccentBrush}" IsActive="True" IsIndeterminate="False" Maximum="100" Value="{x:Bind ViewModel.MemoryUsageValue, Mode=OneWay}" />
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="27" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.MemoryUsage, Mode=OneWay}" />
+                                        </Grid>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="7">
+                                            <Canvas x:Name="MemoryGaugeTrendCanvas" Height="44" SizeChanged="TrendCanvas_SizeChanged">
+                                                <Polyline x:Name="MemoryGaugeTrendLine" Stroke="{StaticResource VantaAccentBrush}" StrokeThickness="1.6" StrokeLineJoin="Round" />
+                                            </Canvas>
+                                            <TextBlock FontSize="11" Foreground="{StaticResource VantaMutedTextBrush}" Text="{x:Bind ViewModel.MemoryCapacity, Mode=OneWay}" />
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="Physical memory" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Column="3" Style="{StaticResource VantaCardStyle}">
+                                <Grid>
+                                    <StackPanel Spacing="15">
+                                        <TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="System Uptime" />
+                                        <StackPanel Orientation="Horizontal" Spacing="11">
+                                            <FontIcon VerticalAlignment="Center" FontSize="27" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xE823;" />
+                                            <TextBlock VerticalAlignment="Center" FontSize="25" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.Uptime, Mode=OneWay}" />
+                                        </StackPanel>
+                                        <StackPanel Spacing="2">
+                                            <TextBlock FontSize="11" Foreground="{StaticResource VantaMutedTextBrush}" Text="Windows native telemetry" />
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="{x:Bind ViewModel.UpdatedAt, Mode=OneWay}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <Border Grid.Row="2" Padding="14,11" Style="{StaticResource VantaCardStyle}">
+                            <Grid RowSpacing="8">
+                                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                                <TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="Temperatures &amp; Live Signals" />
+                                <Border Grid.Row="0" Margin="0,25,0,0" VerticalAlignment="Bottom" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,0,0,1" />
+                                <Grid Grid.Row="1" ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
+                                    <Grid Padding="3,4,14,0">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="100" /><ColumnDefinition /></Grid.ColumnDefinitions>
+                                        <StackPanel Spacing="3">
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="CPU PACKAGE" />
+                                            <StackPanel Orientation="Horizontal" Spacing="6"><FontIcon FontSize="14" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xE7A3;" /><TextBlock FontSize="19" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.CpuTemperature, Mode=OneWay}" /></StackPanel>
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="Load trace" />
+                                        </StackPanel>
+                                        <Canvas x:Name="CpuSensorTrendCanvas" Grid.Column="1" Height="38" VerticalAlignment="Center" SizeChanged="TrendCanvas_SizeChanged"><Polyline x:Name="CpuSensorTrendLine" Stroke="{StaticResource VantaBlueBrush}" StrokeThickness="1.5" StrokeLineJoin="Round" /></Canvas>
+                                    </Grid>
+                                    <Grid Grid.Column="1" Padding="14,4">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="100" /><ColumnDefinition /></Grid.ColumnDefinitions>
+                                        <Border Margin="-14,-4,0,-2" HorizontalAlignment="Left" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="1,0,0,0" />
+                                        <StackPanel Spacing="3">
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="GPU CORE" />
+                                            <StackPanel Orientation="Horizontal" Spacing="6"><FontIcon FontSize="14" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xE7A3;" /><TextBlock FontSize="19" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.GpuTemperature, Mode=OneWay}" /></StackPanel>
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="Load trace" />
+                                        </StackPanel>
+                                        <Canvas x:Name="GpuSensorTrendCanvas" Grid.Column="1" Height="38" VerticalAlignment="Center" SizeChanged="TrendCanvas_SizeChanged"><Polyline x:Name="GpuSensorTrendLine" Stroke="{StaticResource VantaSuccessBrush}" StrokeThickness="1.5" StrokeLineJoin="Round" /></Canvas>
+                                    </Grid>
+                                    <Grid Grid.Column="2" Padding="14,4">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="112" /><ColumnDefinition /></Grid.ColumnDefinitions>
+                                        <Border Margin="-14,-4,0,-2" HorizontalAlignment="Left" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="1,0,0,0" />
+                                        <StackPanel Spacing="3">
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="MEMORY PRESSURE" />
+                                            <StackPanel Orientation="Horizontal" Spacing="6"><FontIcon FontSize="14" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xE950;" /><TextBlock FontSize="19" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.MemoryUsage, Mode=OneWay}" /></StackPanel>
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="RAM in use" />
+                                        </StackPanel>
+                                        <Canvas x:Name="MemorySensorTrendCanvas" Grid.Column="1" Height="38" VerticalAlignment="Center" SizeChanged="TrendCanvas_SizeChanged"><Polyline x:Name="MemorySensorTrendLine" Stroke="{StaticResource VantaAccentBrush}" StrokeThickness="1.5" StrokeLineJoin="Round" /></Canvas>
+                                    </Grid>
+                                    <Grid Grid.Column="3" Padding="14,4,2,4">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="100" /><ColumnDefinition /></Grid.ColumnDefinitions>
+                                        <Border Margin="-14,-4,0,-2" HorizontalAlignment="Left" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="1,0,0,0" />
+                                        <StackPanel Spacing="3">
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="PRIMARY DRIVE" />
+                                            <StackPanel Orientation="Horizontal" Spacing="6"><FontIcon FontSize="14" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xEDA2;" /><TextBlock FontSize="19" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.StorageUsage, Mode=OneWay}" /></StackPanel>
+                                            <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="Capacity used" />
+                                        </StackPanel>
+                                        <Canvas x:Name="StorageSensorTrendCanvas" Grid.Column="1" Height="38" VerticalAlignment="Center" SizeChanged="TrendCanvas_SizeChanged"><Polyline x:Name="StorageSensorTrendLine" Stroke="{StaticResource VantaBlueBrush}" StrokeThickness="1.5" StrokeLineJoin="Round" /></Canvas>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <Grid Grid.Row="3" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="1.12*" /></Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Style="{StaticResource VantaCardStyle}">
+                                <Grid RowSpacing="10">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal" Spacing="9"><FontIcon FontSize="19" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xEDA2;" /><StackPanel><TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="Disk Capacity" /><TextBlock Width="210" TextTrimming="CharacterEllipsis" FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="{x:Bind ViewModel.StorageName, Mode=OneWay}" /></StackPanel></StackPanel>
+                                    <Grid Grid.Row="1" Margin="0,3,0,0" ColumnSpacing="18">
+                                        <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
+                                        <StackPanel Spacing="3"><TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="USED" /><TextBlock FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource VantaBlueBrush}" Text="{x:Bind ViewModel.StorageUsage, Mode=OneWay}" /></StackPanel>
+                                        <StackPanel Grid.Column="1" Spacing="3"><TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="FREE" /><TextBlock FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource VantaAccentBrush}" Text="{x:Bind ViewModel.StorageFree, Mode=OneWay}" /></StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.RowDefinitions><RowDefinition /><RowDefinition /><RowDefinition /></Grid.RowDefinitions>
+                                        <Border Grid.Row="0" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,0,0,1" /><Border Grid.Row="1" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,0,0,1" /><Border Grid.Row="2" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,0,0,1" />
+                                        <Canvas x:Name="DiskTrendCanvas" Grid.RowSpan="3" SizeChanged="TrendCanvas_SizeChanged"><Polyline x:Name="StorageTrendLine" Stroke="{StaticResource VantaBlueBrush}" StrokeThickness="1.6" StrokeLineJoin="Round" /></Canvas>
+                                    </Grid>
+                                    <Grid Grid.Row="3"><TextBlock FontSize="9" Foreground="{StaticResource VantaSubtleTextBrush}" Text="60 sec" /><TextBlock HorizontalAlignment="Right" FontSize="9" Foreground="{StaticResource VantaSubtleTextBrush}" Text="Now" /></Grid>
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Column="1" Style="{StaticResource VantaCardStyle}">
+                                <Grid RowSpacing="10">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal" Spacing="9"><FontIcon FontSize="19" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xE968;" /><StackPanel><TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="Network Throughput" /><TextBlock Width="210" TextTrimming="CharacterEllipsis" FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="{x:Bind ViewModel.NetworkName, Mode=OneWay}" /></StackPanel></StackPanel>
+                                    <Grid Grid.Row="1" Margin="0,3,0,0" ColumnSpacing="18">
+                                        <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
+                                        <StackPanel Spacing="3"><TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="DOWNLOAD" /><TextBlock FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource VantaBlueBrush}" Text="{x:Bind ViewModel.NetworkDownload, Mode=OneWay}" /></StackPanel>
+                                        <StackPanel Grid.Column="1" Spacing="3"><TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="UPLOAD" /><TextBlock FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource VantaAccentBrush}" Text="{x:Bind ViewModel.NetworkUpload, Mode=OneWay}" /></StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.RowDefinitions><RowDefinition /><RowDefinition /><RowDefinition /></Grid.RowDefinitions>
+                                        <Border Grid.Row="0" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,0,0,1" /><Border Grid.Row="1" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,0,0,1" /><Border Grid.Row="2" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,0,0,1" />
+                                        <Canvas x:Name="NetworkTrendCanvas" Grid.RowSpan="3" SizeChanged="TrendCanvas_SizeChanged"><Polyline x:Name="NetworkDownloadTrendLine" Stroke="{StaticResource VantaBlueBrush}" StrokeThickness="1.6" StrokeLineJoin="Round" /><Polyline x:Name="NetworkUploadTrendLine" Stroke="{StaticResource VantaAccentBrush}" StrokeThickness="1.4" StrokeLineJoin="Round" /></Canvas>
+                                    </Grid>
+                                    <Grid Grid.Row="3"><TextBlock FontSize="9" Foreground="{StaticResource VantaSubtleTextBrush}" Text="60 sec" /><TextBlock HorizontalAlignment="Right" FontSize="9" Foreground="{StaticResource VantaSubtleTextBrush}" Text="Now" /></Grid>
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Column="2" Style="{StaticResource VantaCardStyle}">
+                                <Grid RowSpacing="8">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                    <Grid><TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="Top Processes" /><TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="9" Foreground="{StaticResource VantaSubtleTextBrush}" Text="CPU        MEMORY" /></Grid>
+                                    <Border Grid.Row="1" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,0,0,1" />
+                                    <ListView Grid.Row="2" IsItemClickEnabled="False" ItemsSource="{x:Bind ViewModel.TopProcesses, Mode=OneWay}" SelectionMode="None">
+                                        <ListView.ItemContainerStyle><Style TargetType="ListViewItem"><Setter Property="HorizontalContentAlignment" Value="Stretch" /><Setter Property="MinHeight" Value="30" /><Setter Property="Padding" Value="0" /></Style></ListView.ItemContainerStyle>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Padding="2,4" ColumnSpacing="8">
+                                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="54" /><ColumnDefinition Width="66" /></Grid.ColumnDefinitions>
+                                                    <StackPanel Orientation="Horizontal" Spacing="8"><Border Width="20" Height="20" Background="#10FFFFFF" CornerRadius="5"><FontIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xECAA;" /></Border><TextBlock MaxWidth="150" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="10" Foreground="{StaticResource VantaTextBrush}" Text="{Binding Name}" /></StackPanel>
+                                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="{Binding Cpu}" />
+                                                    <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="{Binding Memory}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                    <Button Grid.Row="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Click="ViewProcesses_Click" Style="{StaticResource VantaPillButtonStyle}">
+                                        <Grid Width="310"><TextBlock Text="View All Processes" /><FontIcon HorizontalAlignment="Right" FontSize="10" Glyph="&#xE76C;" /></Grid>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Grid>
+
+                    <Grid x:Name="DetailView" Padding="24,20,24,28" RowSpacing="14" Visibility="Collapsed">
+                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <StackPanel Spacing="4">
+                                <TextBlock Style="{StaticResource VantaEyebrowStyle}" Text="{x:Bind ViewModel.DetailEyebrow, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource VantaPageTitleStyle}" Text="{x:Bind ViewModel.DetailTitle, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource VantaBodyStyle}" Text="{x:Bind ViewModel.DetailSubtitle, Mode=OneWay}" />
+                            </StackPanel>
+                            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="ExportSnapshot_Click" Style="{StaticResource VantaPillButtonStyle}"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon FontSize="12" Glyph="&#xE74E;" /><TextBlock Text="Export Report" /></StackPanel></Button>
+                        </Grid>
+                        <Border Grid.Row="1" Padding="22" BorderBrush="{StaticResource VantaStrongBorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Offset="0" Color="#1B1532" /><GradientStop Offset="0.52" Color="#111A28" /><GradientStop Offset="1" Color="#0D1A28" /></LinearGradientBrush></Border.Background>
+                            <Grid>
+                                <StackPanel Spacing="6"><TextBlock FontSize="10" CharacterSpacing="90" Foreground="{StaticResource VantaMutedTextBrush}" Text="{x:Bind ViewModel.DetailHeroLabel, Mode=OneWay}" /><TextBlock FontFamily="{StaticResource VantaDisplayFontFamily}" FontSize="48" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{x:Bind ViewModel.DetailHeroValue, Mode=OneWay}" /></StackPanel>
+                                <Border HorizontalAlignment="Right" VerticalAlignment="Center" Padding="12,8" Background="#1043C966" BorderBrush="#3043C966" BorderThickness="1" CornerRadius="8"><StackPanel Orientation="Horizontal" Spacing="7"><Ellipse Width="7" Height="7" VerticalAlignment="Center" Fill="{StaticResource VantaSuccessBrush}" /><TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource VantaSuccessBrush}" Text="LIVE WINDOWS DATA" /></StackPanel></Border>
+                            </Grid>
+                        </Border>
+                        <ItemsControl Grid.Row="2" ItemsSource="{x:Bind ViewModel.DetailMetrics, Mode=OneWay}">
+                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="4" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate><DataTemplate><Border Width="245" MinHeight="125" Margin="0,0,10,10" Style="{StaticResource VantaCardStyle}"><StackPanel Spacing="7"><TextBlock FontSize="10" CharacterSpacing="70" Foreground="{StaticResource VantaSubtleTextBrush}" Text="{Binding Label}" /><TextBlock FontSize="23" FontWeight="SemiBold" Foreground="{StaticResource VantaTextBrush}" Text="{Binding Value}" TextWrapping="Wrap" /><TextBlock FontSize="11" Foreground="{StaticResource VantaMutedTextBrush}" Text="{Binding Detail}" TextWrapping="Wrap" /></StackPanel></Border></DataTemplate></ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Grid Grid.Row="3" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
+                            <Border Style="{StaticResource VantaCardStyle}"><StackPanel Spacing="9"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon FontSize="14" Foreground="{StaticResource VantaBlueBrush}" Glyph="&#xE9D9;" /><TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="Data confidence" /></StackPanel><TextBlock Style="{StaticResource VantaBodyStyle}" Text="Unavailable values remain unavailable. Vanta never invents temperatures, health percentages, or failure states." /></StackPanel></Border>
+                            <Border Grid.Column="1" Style="{StaticResource VantaCardStyle}"><StackPanel Spacing="9"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon FontSize="14" Foreground="{StaticResource VantaAccentBrush}" Glyph="&#xE72E;" /><TextBlock Style="{StaticResource VantaSectionTitleStyle}" Text="Private by default" /></StackPanel><TextBlock Style="{StaticResource VantaBodyStyle}" Text="The app collects only local system telemetry. Exports omit username, host name, IP addresses, and hardware serials." /></StackPanel></Border>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+
+            <Grid Grid.Row="1" Padding="24,0" Background="#0C1420" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="0,1,0,0">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="7"><Ellipse Width="7" Height="7" VerticalAlignment="Center" Fill="{StaticResource VantaSuccessBrush}" /><TextBlock FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="{x:Bind ViewModel.SystemHealthStatusLine, Mode=OneWay}" /></StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Spacing="7"><FontIcon FontSize="12" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xE9D9;" /><TextBlock FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="{x:Bind ViewModel.SensorStatus, Mode=OneWay}" /></StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Spacing="7"><FontIcon FontSize="12" Foreground="{StaticResource VantaMutedTextBrush}" Glyph="&#xEA8F;" /><TextBlock FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="{x:Bind ViewModel.AlertStatus, Mode=OneWay}" /></StackPanel>
+                <StackPanel Grid.Column="3" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" Spacing="9">
+                    <Ellipse Width="7" Height="7" VerticalAlignment="Center" Fill="{StaticResource VantaSuccessBrush}" />
+                    <TextBlock FontSize="10" Foreground="{StaticResource VantaMutedTextBrush}" Text="{x:Bind ViewModel.ConnectionStatus, Mode=OneWay}" />
+                    <Border Height="14" Margin="4,0" BorderBrush="{StaticResource VantaBorderBrush}" BorderThickness="1,0,0,0" />
+                    <TextBlock FontSize="10" Foreground="{StaticResource VantaSubtleTextBrush}" Text="© 2026 Merhatta Softwares" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </NavigationView>
+</Page>

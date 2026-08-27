@@ -1,0 +1,48 @@
+# .NET / Visual Studio
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+arm64/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Tests and coverage
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Build and packaging output
+work/
+outputs/
+artifacts/
+publish/
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.userprefs
+
+# IDEs and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local environment files
+.env
+.env.*
+!.env.example

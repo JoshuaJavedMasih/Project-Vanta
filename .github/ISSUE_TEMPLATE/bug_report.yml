@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a reproducible Vanta problem
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for helping improve Vanta. Do not include private diagnostic data or machine identifiers.
+  - type: input
+    id: version
+    attributes:
+      label: Vanta version
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 24H2, x64
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      placeholder: "1. Open…\n2. Select…\n3. Observe…"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Additional evidence
+      description: Add screenshots or sanitized logs. Remove personal and machine-identifying information.
