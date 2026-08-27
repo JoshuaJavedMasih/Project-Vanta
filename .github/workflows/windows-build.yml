@@ -29,13 +29,13 @@ jobs:
             NuGet.Config
 
       - name: Restore
-        run: dotnet restore Vanta.sln
+        run: dotnet restore Vanta.sln -p:Platform=x64
 
       - name: Build
         run: dotnet build Vanta.sln -c Debug -p:Platform=x64 --no-restore
 
       - name: Test
-        run: dotnet test Vanta.Tests\Vanta.Tests.csproj -c Debug -p:Platform=x64 --no-build --logger "trx;LogFileName=vanta-tests.trx"
+        run: dotnet test Vanta.Tests\Vanta.Tests.csproj -c Debug --no-build --logger "trx;LogFileName=vanta-tests.trx"
 
       - name: Upload test results
         if: always()
